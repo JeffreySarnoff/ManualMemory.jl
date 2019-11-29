@@ -55,7 +55,7 @@ function Base.prevind(s::ManualString, i::Integer)
     j = Int(i)
     e = s.len
     if j > e
-        return endof(s)
+        return lastindex(s)
     end
     j -= 1
     @inbounds while j > 0 && Base.is_valid_continuation(codeunit(s,j))
@@ -83,7 +83,7 @@ Base.byte_string_classify(s::ManualString) =
 Base.isvalid(::Type{ManualString}, s::ManualString) = byte_string_classify(s) != 0
 Base.isvalid(s::ManualString) = isvalid(ManualString, s)
 
-function Base.endof(s::ManualString)
+function Base.lastindex(s::ManualString)
     p = pointer(s)
     i = s.len
     while i > 0 && Base.is_valid_continuation(unsafe_load(p,i))
