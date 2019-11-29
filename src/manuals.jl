@@ -77,7 +77,7 @@ macro v(expr)
 end
 
 @generated function get_address(man::Manual{T}, ::Type{Val{field}}) where {T, field}
-    i = findfirst(fieldnames(T), field)
+    i = findfirst(x->x===field, fieldnames(T))
     @assert i != 0 "$T has no field $field"
     quote
         $(Expr(:meta, :inline))
