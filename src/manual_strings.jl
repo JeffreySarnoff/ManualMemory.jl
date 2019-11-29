@@ -5,9 +5,9 @@ end
 
 # creation
 
-function Base.unsafe_copy!(ps::ManualString, string::Union{ManualString, String})
+function Base.unsafe_copyto!(ps::ManualString, string::Union{ManualString, String})
     @assert ps.len >= string.len
-    unsafe_copy!(convert(Ptr{UInt8}, ps.ptr.ptr), pointer(string), string.len)
+    unsafe_copyto!(convert(Ptr{UInt8}, ps.ptr.ptr), pointer(string), string.len)
 end
 
 function Base.String(ps::ManualString)
