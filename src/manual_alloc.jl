@@ -18,13 +18,13 @@ function init(man::Manual{T}, args...) where T
 end
 
 """
-    init(ptr::Ptr{Void}, man::Manual{T}, args...)::Ptr{Void} where T
+    init(ptr::Ptr{Nothing}, man::Manual{T}, args...)::Ptr{Void} where T
 
 Initialize `man`, where `ptr` is the beginning of the remaining free space. Must return `ptr + alloc_size(T, args...)`. Override this method to add custom initializers for your types.
 
 The default implementation where `alloc_size(T) == 0` does nothing.
 """
-function init(ptr::Ptr{Void}, man::Manual{T}) where T
+function init(ptr::Ptr{Nothing}, man::Manual{T}) where T
     @assert alloc_size(T) == 0 "Default init cannot be used for types for which alloc_size(T) != 0"
     # TODO should we zero memory?
     ptr
@@ -41,7 +41,7 @@ end
 
 alloc_size(::Type{ManualVector{T}}, length::Int64) where {T} = sizeof(T) * length
 
-function init(ptr::Ptr{Void}, pv::Manual{ManualVector{T}}, length::Int64) where T
+function init(ptr::Ptr{Nothing}, pv::Manual{ManualVector{T}}, length::Int64) where T
     @v pv.ptr = Manual{T}(ptr)
     @v pv.length = length
     ptr + alloc_size(ManualVector{T}, length)
@@ -49,7 +49,7 @@ end
 
 alloc_size(::Type{ManualBitVector}, length::Int64) = UInt64(ceil(length / sizeof(UInt64)))
 
-function init(ptr::Ptr{Void}, pv::Manual{ManualBitVector}, length::Int64)
+function init(ptr::Ptr{Nothing}, pv::Manual{ManualBitVector}, length::Int64)
     @v pv.ptr = Manual{UInt64}(ptr)
     @v pv.length = length
     ptr + alloc_size(ManualBitVector, length)
@@ -57,7 +57,7 @@ end
 
 alloc_size(::Type{ManualString}, length::Int64) = length
 
-function init(ptr::Ptr{Void}, ps::Manual{ManualString}, length::Int64)
+function init(ptr::Ptr{Nothing}, ps::Manual{ManualString}, length::Int64)
     @v ps.ptr = Manual{UInt8}(ptr)
     @v ps.len = length
     ptr + alloc_size(ManualString, length)
@@ -65,7 +65,7 @@ end
 
 alloc_size(::Type{ManualString}, string::Union{String, ManualString}) = string.len
 
-function init(ptr::Ptr{Void}, ps::Manual{ManualString}, string::Union{String, ManualString})
+function init(ptr::Ptr{Nothing}, ps::Manual{ManualString}, string::Union{String, ManualString})
     ptr = init(ptr, ps, string.len)
     unsafe_copyto!((@v ps), string)
     ptr
