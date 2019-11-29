@@ -147,8 +147,9 @@ function Base.getindex(s::ManualString, r::UnitRange{Int})
     unsafe_manual_string(pointer(s,i), j-i+1)
 end
 
-function Base.search(s::ManualString, c::Char, i::Integer = 1)
-    if i < 1 || i > sizeof(s)
+#function Base.search(s::ManualString, c::Char, i::Integer = 1)
+function search(s::ManualString, c::Char, i::Integer = 1)
+     if i < 1 || i > sizeof(s)
         i == sizeof(s) + 1 && return 0
         throw(BoundsError(s, i))
     end
