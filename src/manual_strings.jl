@@ -101,9 +101,11 @@ function Base.length(s::ManualString)
     cnum
 end
 
-Base.done(s::ManualString, state) = state > s.len
+#Base.done(s::ManualString, state) = state > s.len
+done(s::ManualString, state) = state > s.len
 
-@inline function Base.next(s::ManualString, i::Int)
+#@inline function Base.next(s::ManualString, i::Int)
+@inline function next(s::ManualString, i::Int)
     @boundscheck if (i < 1) | (i > s.len)
         throw(BoundsError(s,i))
     end
