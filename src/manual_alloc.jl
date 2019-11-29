@@ -32,7 +32,7 @@ end
 
 alloc_size(::Type{Manual{T}}, args...) where T = sizeof(T) + alloc_size(T, args...)
 
-function init(ptr::Ptr{Void}, man::Manual{Manual{T}}, args...) where T
+function init(ptr::Ptr{Nothing}, man::Manual{Manual{T}}, args...) where T
     @v man = Manual{T}(ptr)
     t = Manual{T}(ptr)
     t_ptr = ptr + sizeof(T)
