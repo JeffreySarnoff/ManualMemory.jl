@@ -164,7 +164,8 @@ function search(s::ManualString, c::Char, i::Integer = 1)
     end
 end
 
-function Base.search(a::ManualString, b::Union{Int8,UInt8}, i::Integer = 1)
+#function Base.search(a::ManualString, b::Union{Int8,UInt8}, i::Integer = 1)
+function search(a::ManualString, b::Union{Int8,UInt8}, i::Integer = 1)
     if i < 1
         throw(BoundsError(a, i))
     end
@@ -177,7 +178,8 @@ function Base.search(a::ManualString, b::Union{Int8,UInt8}, i::Integer = 1)
     q == C_NULL ? 0 : Int(q-p+1)
 end
 
-function Base.rsearch(s::ManualString, c::Char, i::Integer = s.len)
+#function Base.rsearch(s::ManualString, c::Char, i::Integer = s.len)
+function rsearch(s::ManualString, c::Char, i::Integer = s.len)
     c < Char(0x80) && return rsearch(s, c%UInt8, i)
     b = Base.first_utf8_byte(c)
     while true
@@ -187,7 +189,8 @@ function Base.rsearch(s::ManualString, c::Char, i::Integer = s.len)
     end
 end
 
-function Base.rsearch(a::ManualString, b::Union{Int8,UInt8}, i::Integer = s.len)
+#function Base.rsearch(a::ManualString, b::Union{Int8,UInt8}, i::Integer = s.len)
+function rsearch(a::ManualString, b::Union{Int8,UInt8}, i::Integer = s.len)
     if i < 1
         return i == 0 ? 0 : throw(BoundsError(a, i))
     end
