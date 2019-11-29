@@ -67,7 +67,7 @@ alloc_size(::Type{ManualString}, string::Union{String, ManualString}) = string.l
 
 function init(ptr::Ptr{Void}, ps::Manual{ManualString}, string::Union{String, ManualString})
     ptr = init(ptr, ps, string.len)
-    unsafe_copy!((@v ps), string)
+    unsafe_copyto!((@v ps), string)
     ptr
 end
 
