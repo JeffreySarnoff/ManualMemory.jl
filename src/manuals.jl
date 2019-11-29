@@ -6,7 +6,7 @@ struct Manual{T}
     ptr::Ptr{Nothing}
 
     function Manual{T}(ptr::Ptr{Nothing}) where {T}
-        @assert isbits(T)
+        @assert isbitstype(T)
         new(ptr)
     end
 end
